@@ -1,0 +1,27 @@
+.PS
+
+copy "sequence.pic";
+
+boxwid = 1.5;
+
+# Objects
+actor(A, "App");
+object(G,": GoogleOauth");
+object(S,": DataStore");
+
+# getToken()
+step(); message(A,G,"getToken()"); active(G);
+step(); message(G,S,"readEntry()"); active(S);
+step(); return_message(S,G,"array"); inactive(S);
+
+# refreshToken()
+step(); begin_frame(G,F,"opt");
+step(); active(G); message(G,G,"[token expired] refreshToken()");
+step(); message(G,S,"updateToken()");active(S);
+step(); return_message(S,G,"TRUE"); inactive(G); inactive(S);
+step(); end_frame(S,F);
+
+# Result
+step(); return_message(G,A,"accessToken"); complete(A); complete(G); complete(S);
+
+.PE
