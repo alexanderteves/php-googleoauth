@@ -36,7 +36,7 @@
         }
 
         /**
-        * Get token for specific entry from datastore. Triggers refresh on expired tokens.
+        * Get token for specific entry from datastore. Triggers refresh / store on expired tokens.
         *
         * @param string $identifier The identifier the entry is saved as
         * @return string The token on success, an empty string on failure
@@ -46,6 +46,8 @@
                 $row = $this->datastore->readEntry($identifier);
                 if(($this->date->getTimestamp() - $row['expireTimestamp']) >= $this->expireSeconds) {
                     $accessToken = $this->refreshToken($identifier, $row['refreshToken']);
+                    $expireTimestamp = $this->date->getTimestamp() + $this->expireSeconds;
+                    $this->datastore->updateEntry($identifier, $access_token, $expireTimestamp);
                 } else {
                     $accessToken = $row['accessToken'];
                 }
@@ -91,10 +93,10 @@
 
         /**
         * If a token is expired (Current and saved timestamp difference > 3600)
-        * a refreshed one will be created and saved to data store
+        * a refreshed one will be created
         *
         * @param str $identifier The identifier the entry is saved as
-        * @param str $refreshToken The entrie's refresh token
+        * @param str $refreshToken The element's refresh token
         * @return str Refreshed access token
         */
         private function refreshToken($identifier, $refreshToken) {
@@ -109,8 +111,6 @@
             $response = $request->send()->getBody();
             $json = json_decode($response);
             if(isset($json->access_token)) {
-                $expireTimestamp = $this->date->getTimestamp() + $this->expireSeconds;
-                $this->datastore->updateEntry($identifier, $json->access_token, $expireTimestamp);
                 return $json->access_token;
             } else {
                 throw new Exception("Response does not contain any tokens ($response)");
