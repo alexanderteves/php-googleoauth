@@ -17,8 +17,8 @@
             $statement->bindParam(2, $accessToken);
             $statement->bindParam(3, $refreshToken);
             $statement->bindParam(4, $expireTimestamp);
-            $result = $statement->execute();
-            if(!($result)) {
+            $row = $statement->execute();
+            if(! $row) {
                 throw new Exception('Unable to create entry');
             } else {
                 return TRUE;
@@ -46,8 +46,8 @@
             $statement->bindParam(1, $accessToken);
             $statement->bindParam(2, $expireTimestamp);
             $statement->bindParam(3, $identifier);
-            $result = $statement->execute();
-            if(!($result)) {
+            $row = $statement->execute();
+            if(! $row) {
                 throw new Exception('Unable to update entry');
             } else {
                 return TRUE;
