@@ -1,0 +1,6 @@
+*.swp
+*.sqlite
+*.json
+jquery*
+*.ini
+*.log
