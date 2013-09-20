@@ -6,4 +6,4 @@ The index.php is just a dummy dispatcher as stated in the comments, go down src/
 
 getToken()
 ----------
-![getToken() sequence](https://raw.github.com/alexanderteves/php-googleoauth/master/doc/get_token.pic)
+![getToken() sequence](https://raw.github.com/alexanderteves/php-googleoauth/master/doc/get_token.png)
