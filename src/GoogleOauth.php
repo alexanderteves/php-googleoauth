@@ -47,7 +47,7 @@
                 if(($this->date->getTimestamp() - $row['expireTimestamp']) >= $this->expireSeconds) {
                     $accessToken = $this->refreshToken($identifier, $row['refreshToken']);
                     $expireTimestamp = $this->date->getTimestamp() + $this->expireSeconds;
-                    $this->datastore->updateEntry($identifier, $access_token, $expireTimestamp);
+                    $this->datastore->updateEntry($identifier, $accessToken, $expireTimestamp);
                 } else {
                     $accessToken = $row['accessToken'];
                 }
