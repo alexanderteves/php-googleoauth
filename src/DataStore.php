@@ -31,5 +31,13 @@
         * @return bool Return TRUE on success, else throw exception
         */
         function updateEntry($identifier, $accessToken, $expireTimeStamp);
+
+        /**
+        * Delete specific element
+        *
+        * @param string $identifier Unique identifier for element
+        * @return bool Return TRUE on success, else throw exception
+        */
+        function deleteEntry($identifier);
     }
 ?>

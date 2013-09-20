@@ -53,5 +53,16 @@
                 return TRUE;
             }
         }
+        
+        function deleteEntry($identifier) {
+            $statement = $this->dbConn->prepare('DELETE FROM token WHERE identifier = ?');
+            $statement->bindParam(1, $identifier);
+            $row = $statement->execute();
+            if(! $row) {
+                throw new Exception('Unable to delete entry');
+            } else {
+                return TRUE;
+            }
+        }
     }
 ?>

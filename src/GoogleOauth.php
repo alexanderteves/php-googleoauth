@@ -116,5 +116,15 @@
                 throw new Exception("Response does not contain any tokens ($response)");
             }
         }
+
+        function deleteToken($identifier) {
+            try {
+                $this->datastore->deleteEntry($identifier);
+                return self::SUCCESS;
+            } catch(Exception $e) {
+                error_log($e->getMessage());
+                return self::DATAERROR;
+            }
+        }
     }
 ?>

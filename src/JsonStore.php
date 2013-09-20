@@ -50,5 +50,9 @@
                 throw new Exception('Unknown identifier');
             }
         }
+
+        function deleteEntry($identifier) {
+            throw new Exception('Not supportet yet');
+        }
     }
 ?>
