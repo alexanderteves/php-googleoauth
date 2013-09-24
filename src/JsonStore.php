@@ -52,7 +52,7 @@
         }
 
         function deleteEntry($identifier) {
-            throw new Exception('Not supportet yet');
+            throw new Exception('Not supported yet');
         }
     }
 ?>
