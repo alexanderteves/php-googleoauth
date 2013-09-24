@@ -14,11 +14,20 @@
     //$datastore = new JsonStore();
     $google = new GoogleOauth($datastore, $config);
 
-    if($_GET) {
-        echo $google->getToken($_GET['identifier']);
-    }
+    switch($_SERVER['REQUEST_METHOD']) {
+        case 'GET':
+            $response = $google->getToken($_GET['identifier']);
+            echo json_encode(array('response' => $response));
+            break;
 
-    if($_POST) {
-        echo $google->createToken($_POST['identifier'], $_POST['grantToken']);
+        case 'POST':
+            if(! isset($_POST['identifier']) || ! isset($_POST['grantToken'])) {
+                http_response_code(400);
+                echo json_encode(array('response' => 'Required parameters missing (Need \'identifier\' and \'grantToken\')'));
+                break;
+            }
+            $response = $google->createToken($_POST['identifier'], $_POST['grantToken']);
+            echo json_encode(array('response' => $response));
+            break;
     }
 ?>
