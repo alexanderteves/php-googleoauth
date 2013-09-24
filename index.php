@@ -16,9 +16,15 @@
 
     switch($_SERVER['REQUEST_METHOD']) {
         case 'GET':
-            $response = $google->getToken($_GET['identifier']);
-            echo json_encode(array('response' => $response));
-            break;
+            if(! isset($_GET['identifier'])) {
+                $response = $google->getIdentifiers();
+                echo json_encode(array('response' => $response));
+                break;
+            } else {
+                $response = $google->getToken($_GET['identifier']);
+                echo json_encode(array('response' => $response));
+                break;
+            }
 
         case 'POST':
             if(! isset($_POST['identifier']) || ! isset($_POST['grantToken'])) {

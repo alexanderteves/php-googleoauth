@@ -64,5 +64,19 @@
                 return TRUE;
             }
         }
+
+        function listEntries() {
+            $entries = array();
+            $statement = $this->dbConn->prepare('SELECT identifier FROM token');
+            $statement->execute();
+            $rows = $statement->fetchAll();
+            if($rows === FALSE) {
+                throw new Exception('An error occured on the SELECT statement');
+            }
+            foreach($rows as $row) {
+                array_push($entries, $row['identifier']);
+            }
+            return $entries;
+        }
     }
 ?>

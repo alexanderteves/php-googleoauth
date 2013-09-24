@@ -59,6 +59,21 @@
         }
 
         /**
+        * Fetches all identifiers from datastore
+        *
+        * @return array Array containing all identifiers or DATAERROR on datastore exception
+        */
+        function getIdentifiers() {
+            try {
+                $identifierList = $this->datastore->listEntries();
+                return $identifierList;
+            } catch(Exception $e) {
+                error_log($e->getMessage());
+                return self::DATAERROR;
+            }
+        }
+
+        /**
         * Creates a new access token with Google's api and saves it
         *
         * @param str $identifier The identifier the entry will be saved as

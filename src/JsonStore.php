@@ -54,5 +54,9 @@
         function deleteEntry($identifier) {
             throw new Exception('Not supported yet');
         }
+
+        function listEntries() {
+            throw new Exception('Not supported yet');
+        }
     }
 ?>

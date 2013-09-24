@@ -39,5 +39,12 @@
         * @return bool Return TRUE on success, else throw exception
         */
         function deleteEntry($identifier);
+
+        /**
+        * List all elements
+        *
+        * @return array Array of all identifiers (might be empty), throw exception on error
+        */
+        function listEntries();
     }
 ?>
