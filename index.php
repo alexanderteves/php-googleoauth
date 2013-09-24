@@ -18,22 +18,32 @@
         case 'GET':
             if(! isset($_GET['identifier'])) {
                 $response = $google->getIdentifiers();
-                echo json_encode(array('response' => $response), JSON_PRETTY_PRINT);
+                echo json_encode(array('response' => $response), JSON_PRETTY_PRINT) . PHP_EOL;
                 break;
             } else {
                 $response = $google->getToken($_GET['identifier']);
-                echo json_encode(array('response' => $response), JSON_PRETTY_PRINT);
+                echo json_encode(array('response' => $response), JSON_PRETTY_PRINT) . PHP_EOL;
                 break;
             }
 
         case 'POST':
             if(! isset($_POST['identifier']) || ! isset($_POST['grantToken'])) {
                 http_response_code(400);
-                echo json_encode(array('response' => 'Required parameters missing (Need \'identifier\' and \'grantToken\')'), JSON_PRETTY_PRINT);
+                echo json_encode(array('response' => 'Required parameters missing (Need \'identifier\' and \'grantToken\')'), JSON_PRETTY_PRINT) . PHP_EOL;
                 break;
             }
             $response = $google->createToken($_POST['identifier'], $_POST['grantToken']);
-            echo json_encode(array('response' => $response), JSON_PRETTY_PRINT);
+            echo json_encode(array('response' => $response), JSON_PRETTY_PRINT) . PHP_EOL;
+            break;
+
+        case 'DELETE':
+            if(! isset($_GET['identifier'])) {
+                http_response_code(400);
+                echo json_encode(array('response' => 'Required parameter missing (Need \'identifier\')'), JSON_PRETTY_PRINT) . PHP_EOL;
+                break;
+            }
+            $response = $google->deleteToken($_POST['identifier']);
+            echo json_encode(array('response' => $response), JSON_PRETTY_PRINT) . PHP_EOL;
             break;
     }
 ?>
