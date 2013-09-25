@@ -42,7 +42,7 @@
                 echo json_encode(array('response' => 'Required parameter missing (Need \'identifier\')'), JSON_PRETTY_PRINT) . PHP_EOL;
                 break;
             }
-            $response = $google->deleteToken($_POST['identifier']);
+            $response = $google->deleteToken($_GET['identifier']);
             echo json_encode(array('response' => $response), JSON_PRETTY_PRINT) . PHP_EOL;
             break;
     }
