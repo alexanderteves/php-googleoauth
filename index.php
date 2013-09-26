@@ -10,7 +10,7 @@
 
     $config = parse_ini_file('config.ini');
 
-    $datastore = new SqliteStore();
+    $datastore = new SqliteStore($config);
     //$datastore = new JsonStore();
     $google = new GoogleOauth($datastore, $config);
 

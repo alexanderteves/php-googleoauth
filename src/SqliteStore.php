@@ -1,18 +1,22 @@
 <?php
     class SqliteStore implements DataStore {
+        private $dbFile;
+        private $tableName;
         private $dbConn;
         private $date;
         private $expireSeconds;
 
-        function __construct() {
-            $this->dbConn = new PDO('sqlite:main.sqlite'); // TODO Hardcoded
+        function __construct($config) {
+            $this->dbFile = $config['dbFile'];
+            $this->tableName = $config['tableName'];
+            $this->dbConn = new PDO('sqlite:' . $this->dbFile);
             $this->dbConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->date = new DateTime();
             $this->expireSeconds = 3600;
         }
 
         function createEntry($identifier, $accessToken, $refreshToken, $expireTimestamp) {
-            $statement = $this->dbConn->prepare('INSERT INTO token (identifier, accessToken, refreshToken, expireTimestamp) VALUES(?, ?, ?, ?)');
+            $statement = $this->dbConn->prepare("INSERT INTO $this->tableName (identifier, accessToken, refreshToken, expireTimestamp) VALUES(?, ?, ?, ?)");
             $statement->bindParam(1, $identifier);
             $statement->bindParam(2, $accessToken);
             $statement->bindParam(3, $refreshToken);
@@ -26,7 +30,7 @@
         }
 
         function readEntry($identifier) {
-            $statement = $this->dbConn->prepare('SELECT * FROM token WHERE identifier = ?');
+            $statement = $this->dbConn->prepare("SELECT * FROM $this->tableName WHERE identifier = ?");
             $statement->bindParam(1, $identifier);
             $statement->execute();
             $row = $statement->fetch();
@@ -42,7 +46,7 @@
         }
 
         function updateEntry($identifier, $accessToken, $expireTimestamp) {
-            $statement = $this->dbConn->prepare('UPDATE token SET accessToken = ?, expireTimestamp = ?  WHERE identifier = ?');
+            $statement = $this->dbConn->prepare("UPDATE $this->tableName SET accessToken = ?, expireTimestamp = ?  WHERE identifier = ?");
             $statement->bindParam(1, $accessToken);
             $statement->bindParam(2, $expireTimestamp);
             $statement->bindParam(3, $identifier);
@@ -55,7 +59,7 @@
         }
         
         function deleteEntry($identifier) {
-            $statement = $this->dbConn->prepare('DELETE FROM token WHERE identifier = ?');
+            $statement = $this->dbConn->prepare("DELETE FROM $this->tableName WHERE identifier = ?");
             $statement->bindParam(1, $identifier);
             $row = $statement->execute();
             if(! $row) {
@@ -67,7 +71,7 @@
 
         function listEntries() {
             $entries = array();
-            $statement = $this->dbConn->prepare('SELECT identifier FROM token');
+            $statement = $this->dbConn->prepare("SELECT identifier FROM $this->tableName");
             $statement->execute();
             $rows = $statement->fetchAll();
             if($rows === FALSE) {
