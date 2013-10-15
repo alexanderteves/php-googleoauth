@@ -10,9 +10,24 @@
             $this->dbFile = $config['dbFile'];
             $this->tableName = $config['tableName'];
             $this->dbConn = new PDO('sqlite:' . $this->dbFile);
+            $this->ensureTableExists();
             $this->dbConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->date = new DateTime();
             $this->expireSeconds = 3600;
+        }
+
+        private function ensureTableExists() {
+            $statement = $this->dbConn->prepare("SELECT * FROM sqlite_master WHERE name = ? AND type = 'table'");
+            $statement->bindParam(1, $this->tableName);
+            $statement->execute();
+            $row = $statement->fetch();
+            if(! $row) {
+                $result = $this->dbConn->exec("CREATE TABLE $this->tableName ('identifier' TEXT PRIMARY KEY  NOT NULL  DEFAULT (null), 'accessToken' TEXT NOT NULL DEFAULT (null), 'refreshToken' TEXT NOT NULL DEFAULT (null), 'expireTimestamp' DOUBLE NOT NULL DEFAULT (null))");
+                if($result !== 0) {
+                    throw new Exception('Failed to create table');
+                }
+            }
+            return TRUE;
         }
 
         function createEntry($identifier, $accessToken, $refreshToken, $expireTimestamp) {
