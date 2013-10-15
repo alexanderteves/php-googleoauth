@@ -1,0 +1,9 @@
+<phpunit>
+    <testsuites>
+        <testsuite name="php-googleoauth-testsuite">
+            <file>tests/ApplicationTest.php</file>
+            <file>tests/SqliteStoreTest.php</file>
+            <file>tests/UrlCreatorTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>

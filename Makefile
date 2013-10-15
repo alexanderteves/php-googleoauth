@@ -1,4 +1,4 @@
 all: test
 
 test:
-	phpunit --stop-on-error tests/
+	phpunit --stop-on-failure -c tests/config.xml
