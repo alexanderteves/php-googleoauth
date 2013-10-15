@@ -1,4 +1,4 @@
 all: test
 
 test:
-	phpunit ApplicationTest.php
+	phpunit --stop-on-error tests/
