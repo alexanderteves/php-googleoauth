@@ -77,13 +77,13 @@
         * Creates a new access token with Google's api and saves it
         *
         * @param str $identifier The identifier the entry will be saved as
-        * @param str $grantToken The grant token received after authentication
+        * @param str $authorizationCode The grant token received after authentication
         * @return int Returns SUCCESS or ERROR const
         */
-        function createToken($identifier, $grantToken) {
+        function createToken($identifier, $authorizationCode) {
             $request = new HTTP_Request2($this->config['tokenUrl'], HTTP_Request2::METHOD_POST);
             $request->addPostParameter(array(
-                'code' => $grantToken,
+                'code' => $authorizationCode,
                 'client_id' => $this->config['clientId'],
                 'client_secret' => $this->config['clientSecret'],
                 'redirect_uri' => $this->config['redirectUri'],

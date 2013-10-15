@@ -32,12 +32,12 @@
                 }
 
             case 'POST':
-                if(! isset($_POST['identifier']) || ! isset($_POST['grantToken'])) {
+                if(! isset($_POST['identifier']) || ! isset($_POST['authorizationCode'])) {
                     http_response_code(400);
-                    echo json_encode(array('response' => 'Required parameters missing (Need \'identifier\' and \'grantToken\')'), JSON_PRETTY_PRINT);
+                    echo json_encode(array('response' => 'Required parameters missing (Need \'identifier\' and \'authorizationCode\')'), JSON_PRETTY_PRINT);
                     break;
                 }
-                $response = $google->createToken($_POST['identifier'], $_POST['grantToken']);
+                $response = $google->createToken($_POST['identifier'], $_POST['authorizationCode']);
                 echo json_encode(array('response' => $response), JSON_PRETTY_PRINT);
                 break;
 
