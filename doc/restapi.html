@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>REST API Documentation</title>
+<style>
+    table {border-collapse: collapse}
+    table, th, td {border: solid 1px #000000; text-align: left}
+    th, td {padding: 5px}
+</style>
+</head>
+<body>
+<h1>REST API Documentation</h1>
+<p>This documents the REST API represented by <code>index.php</code> as dispatcher.</p>
+
+<hr />
+<h3>Getting the Google URL and authorization code</h3>
+<p>Method: <b>GET</b></p>
+<p>URL parameters:</p>
+<table>
+    <tr><th>Parameter</th><th>Description</th></tr>
+    <tr>
+        <td><code>scope</code></td>
+        <td>Currently supported values are adwords, webmastertools and content</td>
+    </tr>
+</table>
+<p>The URL will take the user to a Google login page. Login with the credentials of the user holding the desired data, authorize and copy/save the resulting authorization code. Will return an empty response on error.</p>
+
+<hr />
+<h3>Getting the initial access token</h3>
+<p>Method: <b>POST</b>
+<p>Form data:</p>
+<table>
+    <tr><th>Key</th><th>Description</th></tr>
+    <tr>
+        <td><code>authorizationCode</code></td>
+        <td>The code obtained by logging in and authorizing the request</td>
+    </tr>
+    <tr>
+        <td><code>identifier</code></td>
+        <td>The name the saved entry will be accessed as in the future</td>
+    </tr>
+</table>
+<p>Will return 0 on success and 1 on error.</p>
+
+<hr />
+<h3>Listing all saved entries by identifier</h3>
+<p>Method: <b>GET</b>
+<p>Called without any parameters the identifiers are returned as a JSON array.</p>
+
+<hr />
+<h3>Getting an access token</h3>
+<p>Method: <b>GET</b>
+<p>URL parameters:</p>
+<table>
+    <tr><th>Parameter</th><th>Description</th></tr>
+    <tr>
+        <td><code>identifier</code></td>
+        <td>Identifier of saved entry</td>
+    </tr>
+</table>
+<p>If identifier is unknown, response will be empty. Token will be refreshed as needed.</p>
+
+<hr />
+<h3>Deleting an entry</h3>
+<p>Method: <b>DELETE</b>
+<p>URL parameters:</p>
+<table>
+    <tr><th>Parameter</th><th>Description</th></tr>
+    <tr>
+        <td><code>identifier</code></td>
+        <td>Identifier of saved entry</td>
+    </tr>
+</table>
+<p>Returns 0 even if entry was not present in the first place. Returns &gt; 0 on error.</p>
+</body>
+</html>
