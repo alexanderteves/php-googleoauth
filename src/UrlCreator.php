@@ -1,11 +1,11 @@
 <?php
     class UrlCreator {
-        public function __construct($config) {
+        function __construct($config) {
             $this->redirectUri = urlencode($config['redirectUri']);
             $this->clientId = urlencode($config['clientId']);
         }
 
-        public function getUrl($scope) {
+        function getUrl($scope) {
             $responseType = 'code';
             $accessType = 'offline';
             $approvalPrompt = 'force';
