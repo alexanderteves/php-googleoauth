@@ -23,7 +23,6 @@
                     break;
                 } else if(isset($_GET['scope'])) {
                     $response = $urlcreator->getUrl($_GET['scope']);
-                    echo "$response\n";
                     echo json_encode(array('response' => $response), JSON_PRETTY_PRINT);
                     break;
                 } else {
