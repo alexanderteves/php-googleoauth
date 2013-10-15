@@ -8,15 +8,26 @@
 
         $datastore = new SqliteStore($config);
         $google = new GoogleOauth($datastore, $config);
+        $urlcreator = new UrlCreator($config);
 
         switch($_SERVER['REQUEST_METHOD']) {
             case 'GET':
-                if(! isset($_GET['identifier'])) {
-                    $response = $google->getIdentifiers();
+                if(isset($_GET['identifier']) && isset($_GET['scope'])) {
+                    echo "Yes\n";
+                    http_response_code(400);
+                    echo json_encode(array('response' => 'Cannot use \'identifier\' and \'scope\' in the same request'), JSON_PRETTY_PRINT);
+                    break;
+                } else if(isset($_GET['identifier'])) {
+                    $response = $google->getToken($_GET['identifier']);
+                    echo json_encode(array('response' => $response), JSON_PRETTY_PRINT);
+                    break;
+                } else if(isset($_GET['scope'])) {
+                    $response = $urlcreator->getUrl($_GET['scope']);
+                    echo "$response\n";
                     echo json_encode(array('response' => $response), JSON_PRETTY_PRINT);
                     break;
                 } else {
-                    $response = $google->getToken($_GET['identifier']);
+                    $response = $google->getIdentifiers();
                     echo json_encode(array('response' => $response), JSON_PRETTY_PRINT);
                     break;
                 }
